@@ -1,0 +1,176 @@
+﻿@using Syncfusion.EJ2
+
+@{
+    ViewBag.PageTitle = "DIS > Inspection Management";
+    ViewBag.PlatformName = "DIS";
+    ViewBag.MenuName = "Inspection Log";
+    ViewBag.FunctionName = "List";
+}
+
+@section SearchSection{
+    <div class="row align-items-center m-0">
+        <div class="col">
+            <ejs-textbox id="SearchString" name="SearchString" value="@ViewBag.SearchString" cssClass="e-outline inputable" placeholder="Search Keyword...(Project ID, Project Title, Work Desc...)"></ejs-textbox>
+        </div>
+        <div class="col-auto">
+            Period
+        </div>
+        <div class="col-2">
+            <ejs-datepicker id="StartDate" name="StartDate" value="@ViewBag.StartDate" value="@DateTime.Now.AddYears(-3).ToShortDateString()" format="yyyy-MM-dd" placeholder="Start Date..." cssClass="inputable"></ejs-datepicker>
+        </div>
+        <div class="col-2">
+            <ejs-datepicker id="EndDate" name="EndDate" value="@ViewBag.EndDate" value="@DateTime.Now.ToShortDateString()" format="yyyy-MM-dd" placeholder="End Date..." cssClass="inputable"></ejs-datepicker>
+        </div>
+        <div class="col">
+            <button id="Search" type="submit" class="btn btn-purple btn-medium rounded-pill waves-effect waves-light">Search</button>
+        </div>
+    </div>
+}
+
+@section ContentsSection{
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="ps-2 pageContentTitle">
+            <h3>@ViewBag.MenuName</h3>
+        </div>
+        <div class="ps-1">
+            @*<a asp-controller="DisItpInspectionLog" asp-action="Create" id="btnNew" class="btn btn-info btn-custom rounded-pill waves-effect waves-light">New</a>*@
+        </div>
+    </div>
+
+    <div>
+        <ejs-grid id="Grid" recordClick="recordClick"
+              height="510"
+              allowResizing="true"
+              allowReordering="true"
+              allowSorting="true"
+              allowFiltering="true"
+              allowExcelExport="true"
+              allowPdfExport="true"
+              allowPaging="true"
+              showColumnChooser="true"
+              allowGrouping="true"
+              rowHeight="32"
+              toolbar="@( new List<string>() { "ColumnChooser", "ExcelExport", "PdfExport", "CsvExport", "Print"})">
+            <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator>
+            <e-data-manager url="@Url.Action("UrlDataSource", "DisItpInspectionLog",  new {SearchString = "", StartDate = @DateTime.Now.AddYears(-3).ToShortDateString(), EndDate = @DateTime.Now.ToShortDateString()} )" adaptor="UrlAdaptor" crossdomain="true"></e-data-manager>
+            <e-grid-filterSettings type="CheckBox"></e-grid-filterSettings>
+            <e-grid-pagesettings pageCount="10" pageSize="15" pageSizes="@(new string[] { "10", "15", "20", "50", "All" })"></e-grid-pagesettings>
+            <e-grid-columns>
+                <e-grid-column field="NO" headerText="No." customAttributes=@(new{@class="customCss"}) width="80" textAlign="Center"></e-grid-column>
+                <e-grid-column field="CODE" headerText="Code" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="PART" headerText="Part" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="GROUP" headerText="Group" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="ITEM" headerText="Item" customAttributes=@(new{@class="customCss"}) width="250" textAlign="Center"></e-grid-column>
+                <e-grid-column field="INSPECTION" headerText="Inspection" customAttributes=@(new{@class="customCss"}) width="350" textAlign="Center"></e-grid-column>
+                <e-grid-column field="ITP_SEQ" headerText="Seq." customAttributes=@(new{@class="customCss"}) width="80" textAlign="Center"></e-grid-column>
+                <e-grid-column field="SURVEY_DATE" headerText="Survey Date" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="SURVEYOR" headerText="Surveyor" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="ITP_STATUS" headerText="ITP Status" customAttributes=@(new{@class="customCss"}) width="100" textAlign="Center"></e-grid-column>
+                <e-grid-column field="RESULT" headerText="Result" customAttributes=@(new{@class="customCss"}) width="100" textAlign="Center"></e-grid-column>
+                <e-grid-column field="FIND_COUNT" headerText="Find Commnet" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="CLEAR_COUNT" headerText="Clear Comment" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="REPORT_NO" headerText="Report No." customAttributes=@(new{@class="customCss"}) width="140" textAlign="Center"></e-grid-column>
+                <e-grid-column field="DSR_NO" headerText="DSR No." customAttributes=@(new{@class="customCss"}) width="200" textAlign="Center"></e-grid-column>
+                <e-grid-column field="SURVEY_TIME" headerText="Survey Time" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+                <e-grid-column field="REPORT_STATUS" headerText="Report Sutatus" customAttributes=@(new{@class="customCss"}) width="150" textAlign="Center"></e-grid-column>
+            </e-grid-columns>
+        </ejs-grid>
+        <script id="templateReportNo" type="text/x-template">
+            <h4 class="fw-bold">
+            @*<a class="fw-bold" href="/DisItpInspectionLog/Detail/${WORK_IDX}">${WORK_ID}</a>*@
+                ${REPORT_NO}
+            </h4>
+        </script>
+        <script id="templateDsrNo" type="text/x-template">
+            <h4 class="fw-bold">
+            @*<a class="fw-bold" href="/DisItpInspectionLog/Detail/${WORK_IDX}">${WORK_ID}</a>*@
+                ${DSR_NO}
+            </h4>
+        </script>
+    </div>
+
+    <div class="pt-2">
+        <div class="float-start row g-0">
+            <div class="col-auto pe-2">
+                @*<a id="btnCreateReportPopup" class="btn btn-success rounded-pill waves-effect waves-light btn-medium" style="width:180px;" onclick="CreateReportOpen()">Create Report(PopUp)</a>*@
+            </div>
+            <div class="col-auto pe-2">
+            </div>
+            <div class="col-auto">
+            </div>
+        </div>
+        <div class="float-end row g-0">
+            <div class="col-auto pe-2">
+            </div>
+            <div class="col-auto pe-2">
+            </div>
+            <div class="col-auto">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function recordClick(args) {
+            CreateReportOpen(args.rowData.WORK_IDX, args.rowData.MASTER_IDX);
+        }
+
+        function CreateReportOpen(WorkIdx, DsrIdx) {
+            var W = (screen.availWidth * 0.7);
+            var H = (screen.availHeight * 0.9);
+
+            var popupX = (screen.availWidth / 2) - (W / 2);
+            var popupY = (screen.availHeight / 2) - (H / 2);
+
+            var opt = "status=no,width=" + W + "px, height=" + H + "px, left=" + popupX + ", top=" + popupY + ",scrollbars=yes";
+            var popup = window.open('/DisItpInspectionLog/InspectionReportPopup/WorkIdx=' + WorkIdx + '&DsrIdx=' + DsrIdx, 'Create Inspection Report', opt);
+
+            popup.opener = window;
+            popup.focus();
+        }
+    </script>
+}
+
+@section Scripts{
+    <script>
+        // Grid 높미 조절
+        window.onresize = () => {
+            autoHeight("Grid", 545);
+        };
+
+        window.onload = () => {
+            autoHeight("Grid", 545);
+        };
+
+        $(document).ready(function () {
+
+            // Search Button click 시 조회
+            $("#Search").click(function () {
+                gridRefresh("DisItpInspectionLog", "Grid");
+            });
+
+            $("#SearchString").keyup(function () {
+                // 키 입력시 마다 조회
+                //gridRefresh()
+
+                // Enter 입력 시 조회
+                if (window.event.keyCode == 13) {
+                    gridRefresh("DisItpInspectionLog", "Grid");
+                }
+            });
+
+            $("#StartDate").keyup(function () {
+                // Enter 입력 시 조회
+                if (window.event.keyCode == 13) {
+                    gridRefresh("DisItpInspectionLog", "Grid");
+                }
+            });
+
+            $("#EndDate").keyup(function () {
+                // Enter 입력 시 조회
+                if (window.event.keyCode == 13) {
+                    gridRefresh("DisItpInspectionLog", "Grid");
+                }
+            });
+        });
+    </script>
+}

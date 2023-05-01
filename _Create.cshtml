@@ -1,0 +1,219 @@
+﻿@using NavesPortalforWebWithCoreMvc.Common;
+@using Syncfusion.EJ2
+@using Syncfusion.EJ2.Notifications;
+@model NavesPortalforWebWithCoreMvc.Models.TNAV_WORK
+
+@{
+    ViewBag.PageTitle = "DIS > Inspection Management";
+    ViewBag.PlatformName = "DIS";
+    ViewBag.MenuName = "Inspection Log Create Report";
+    ViewBag.FunctionName = "Create";
+    var asyncSettings = new Syncfusion.EJ2.Inputs.UploaderAsyncSettings { SaveUrl = @Url.Content("~/Uploader/Save"), RemoveUrl = @Url.Content("~/Uploader/Remove") };
+}
+
+@section ContentsSection{
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="ps-2 pageContentTitle">
+            <h3>@ViewBag.MenuName</h3>
+        </div>
+    </div>
+
+    <form asp-controller="DisItpInspectionLog" asp-action="CreateInspectionLog" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="align-items-center mx-0 mt-3 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Title</label>
+            <div class="col-sm-10">
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Prep. Team</label>
+            <div class="col-sm-2">
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Prep. By(Surveyor)</label>
+            <div class="col-sm-2">
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Tel.</label>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Result No.</label>
+            <div class="col-sm-2">
+                <ejs-textbox type="text" id="txtResultNo" cssClass="e-outline text-left inputable" placeholder="Result No..."></ejs-textbox>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Work ID</label>
+            <div class="col-sm-2">
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Date</label>
+            <div class="col-sm-2">
+                <ejs-datepicker id="dpDate" format="yyyy-MM-dd" cssClass="inputable" placeholder="Reporting Date..."></ejs-datepicker>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Vessel Name</label>
+            <div class="col-sm-2">
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Location</label>
+            <div class="col-sm-6">
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Subject</label>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Item</label>
+            <div class="col-sm-2">
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">PRCD. No.</label>
+            <div class="col-sm-2">
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">ITP No.</label>
+            <div class="col-sm-2">
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Yard QM</label>
+            <div class="col-sm-2">
+                <ejs-textbox type="text" id="txtYardQmName" cssClass="e-outline text-left inputable" placeholder="Yard QM Name..."></ejs-textbox>
+            </div>
+            <div class="col-sm-2 px-0">
+                <ejs-textbox type="text" id="txtYardQmPhone" cssClass="e-outline text-left inputable" placeholder="Yard QM phone number..."></ejs-textbox>
+            </div>
+            <div class="col-sm-2">
+                <ejs-textbox type="text" id="txtYardQmEmail" cssClass="e-outline text-left inputable" placeholder="Yard QM Email..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">창정비 감독관</label>
+            <div class="col-sm-2">
+                <ejs-textbox type="text" id="txtSupervisorName" cssClass="e-outline text-left inputable" placeholder="Supervisor Name..."></ejs-textbox>
+            </div>
+            <div class="col-sm-2 px-0">
+                <ejs-textbox type="text" id="txtSupervisorPhone" cssClass="e-outline text-left inputable" placeholder="Supervisor phone number..."></ejs-textbox>
+            </div>
+            <div class="col-sm-2">
+                <ejs-textbox type="text" id="txtSupervisorEmail" cssClass="e-outline text-left inputable" placeholder="Supervisor E-mail..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Personal Info. Manager</label>
+            <div class="col-sm-2">
+                <ejs-dropdownlist id="ddlPersonalInfo" cssClass="inputable" placeholder="Select Personal information manager...">
+                    <e-dropdownlist-fields text="NAME" value="CODE"></e-dropdownlist-fields>
+                </ejs-dropdownlist>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 mt-3 row  border-bottom bg-create-title">
+            <label for="" class="col-sm-12 col-form-label text-center fw-bolder">Description</label>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">General</label>
+            <div class="col-sm-10">
+                <ejs-textbox type="text" id="txtGeneral" cssClass="e-outline text-left inputable" placeholder="General..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Comments</label>
+            <div class="col-sm-10">
+                <ejs-textbox type="text" id="txtComments" cssClass="e-outline text-left inputable" placeholder="Comments..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="mx-0 row  border-bottom" style="height:200px;">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Note</label>
+            <div class="col-sm-10 align-self-center">
+                <ejs-richtexteditor id="rteRemark" height="192" enableResize="false">
+                    <e-richtexteditor-toolbarsettings type="Expand" enableFloating="false" items="@CommonSettingData.getBasicRichTextEditorItemLists()"></e-richtexteditor-toolbarsettings>
+                </ejs-richtexteditor>
+            </div>
+        </div>
+
+        <div class="mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Reference #1</label>
+            <div class="col-sm-4">
+                <div style="min-height:100px;">
+                </div>
+                <div >
+                    <ejs-uploader id="UploadFilesReference1" dropArea=".control-fluid" asyncSettings="@asyncSettings">
+                    </ejs-uploader>
+                </div>
+            </div>
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Reference #2</label>
+            <div class="col-sm-4">
+                <div  style="min-height:100px;">
+                </div>
+                <div>
+                    <ejs-uploader id="UploadFilesReference2" dropArea=".control-fluid" asyncSettings="@asyncSettings">
+                    </ejs-uploader>
+                </div>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <label class="col-sm-2 col-form-label text-end fw-bolder bg-create-title">Remarks</label>
+            <div class="col-sm-10">
+                <ejs-textbox type="text" id="txtRemarks" cssClass="e-outline text-left inputable" placeholder="Remark..."></ejs-textbox>
+            </div>
+        </div>
+
+        <div class="align-items-center mx-0 mt-3 row  border-bottom">
+            <label class="col-sm-3 col-form-label text-center fw-bolder bg-create-title">Surveyor</label>
+            <label class="col-sm-3 col-form-label text-center fw-bolder bg-create-title">Yard QM</label>
+            <label class="col-sm-3 col-form-label text-center fw-bolder bg-create-title">Supervisor</label>
+            <label class="col-sm-3 col-form-label text-center fw-bolder bg-create-title">Result</label>
+        </div>
+
+        <div class="align-items-center mx-0 row  border-bottom">
+            <div class="col-sm-3 px-0 border" style="height:130px;">
+                &nbsp;
+            </div>
+            <div class="col-sm-3 px-0 border" style="height:130px;">
+                &nbsp;
+            </div>
+            <div class="col-sm-3 px-0 border" style="height:130px;">
+                &nbsp;
+            </div>
+            <div class="col-sm-3 px-0 border" style="height:130px;">
+                &nbsp;
+            </div>
+        </div>
+    </form>
+
+    <div class="pt-2">
+        <div class="float-start row g-0">
+            <div class="col-auto pe-2">
+                <a id="btnReview" class="btn btn-success rounded-pill waves-effect waves-light btn-medium" onclick='alert("Review"); return false;'>Review</a>
+            </div>
+            <div class="col-auto pe-2">
+                <a id="btnSend" class="btn btn-success rounded-pill waves-effect waves-light btn-medium" onclick='alert("Revision"); return false;'>Send</a>
+            </div>
+            <div class="col-auto">
+                <a id="btnPersonalInfoConfirm" class="btn btn-success rounded-pill waves-effect waves-light btn-medium" style="width:130px;" onclick='alert("개인정보 승인"); return false;'>개인정보 승인</a>
+            </div>
+        </div>
+        <div class="float-end row g-0">
+            <div class="col-auto pe-2">
+                <button id="btnSave" class="btn btn-primary rounded-pill waves-effect waves-light btn-medium " type="submit">SAVE</button>
+            </div>
+            <div class="col-auto pe-2">
+                <a asp-controller="DisItpInspectionLog" asp-action="Index" id="btnReturn" class="btn btn-primary rounded-pill waves-effect waves-light btn-medium">CANCEL</a>
+            </div>
+            <div class="col-auto">
+                <a id="btnDelete" class="btn btn-danger rounded-pill waves-effect waves-light btn-medium" onclick='alert("DELETE"); return false;'>DELETE</a>
+            </div>
+        </div>
+    </div>
+}
